@@ -85,7 +85,7 @@ def game2Result(game1res,player,npc)
   if player == npc
     return game1res == "win" ? "win" : "lose"
   else
-    return game1res == "win" ? "lose" : "win"
+    return "draw"
   end
 end
 
@@ -112,31 +112,39 @@ def game2(game1res)
   when "lose" then
     p "あなたの負け！"
   else
-    p "ERROR game2 >> result:" + result
-    exit
+    if result != "draw"
+      p "ERROR game2 >> result:" + result
+      exit
+    end
   end
+  
+  return result
 end
 
 #main
 
 #じゃんけんの時に戦わないを選択するまでループ
-condition = false
-while condition == false do
+end_flg = false
+while end_flg == false do
   draw_flg = false
-  end_flg = false
+  break_flg = false
   game1res = nil
   #じゃんけん
-  while end_flg == false do
+  while break_flg == false do
     game1res = game1(draw_flg)
     
     if game1res != "draw"
-      end_flg = true
+      break_flg = true
     else
       draw_flg = true
     end
   end
   
   #あっち向いてホイ
-  game2(game1res)
+  game2res = game2(game1res)
+  
+  if game2res != "draw"
+    end_flg = true
+  end
 end
 #main end
